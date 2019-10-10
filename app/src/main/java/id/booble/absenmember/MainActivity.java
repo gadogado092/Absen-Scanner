@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
             public void run() {
                 text_view_qr_code_value.setVisibility(View.VISIBLE);
                 if (rawResult.getContents().equals("12345")){
-                    text_view_qr_code_value.setText("Sukses");
+                    text_view_qr_code_value.setText("Suksess");
                 }else {
                     text_view_qr_code_value.setText("Gagal");
                 }
