@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
         if (requestCode==100){
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-//                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
                 initScannerView();
                 mScannerView.startCamera();
             } else {
