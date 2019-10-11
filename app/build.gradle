@@ -4,8 +4,8 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
     defaultConfig {
-        buildConfigField "String", "BASE_URL", "\"https://indonesia.co.id/api/\""
-        buildConfigField "String", "API_KEY", "\"7b5cf19ce06bf39e0bbb9\""
+        buildConfigField "String", "BASE_URL", "\"https://bintarolc.co.id/api/\""
+        buildConfigField "String", "API_KEY", "\"7b5cf19ce06bf39e0bbb9c236e8fdcdf\""
         applicationId "id.booble.absenmember"
         minSdkVersion 19
         targetSdkVersion 29
