@@ -6,73 +6,46 @@ import android.os.Parcelable;
 public class User implements Parcelable {
     //filed from db
     public static final String dbStatus = "status";
-    public static final String dbMessage = "message";
-    public static final String dbUserName = "username";
-    public static final String dbName = "nama";
-    public static final String dbProduk = "produk";
-    public static final String dbCompany = "company";
-    public static final String dbId = "id";
+    public static final String dbUserId = "user_id";
+    public static final String dbUserFirstName = "nm_depan";
+    public static final String dbUserLastName = "nm_belakang";
+    public static final String dbUserCompany = "nm_perusahaan";
 
-    private String name;
+    private String userId;
+    private String userFirstName;
+    private String userLastName;
+    private String userCompany;
 
-    public String getId() {
-        return id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    private String id;
-
-    public String getProduk() {
-        return produk;
+    public String getUserFirstName() {
+        return userFirstName;
     }
 
-    public void setProduk(String produk) {
-        this.produk = produk;
+    public void setUserFirstName(String userFirstName) {
+        this.userFirstName = userFirstName;
     }
 
-    private String userName;
-    private String produk;
-
-    public String getCompany() {
-        return company;
+    public String getUserLastName() {
+        return userLastName;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setUserLastName(String userLastName) {
+        this.userLastName = userLastName;
     }
 
-    private String company;
-
-    public String getPassword() {
-        return password;
+    public String getUserCompany() {
+        return userCompany;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    private String password;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public User() {
+    public void setUserCompany(String userCompany) {
+        this.userCompany = userCompany;
     }
 
     @Override
@@ -82,21 +55,20 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.name);
-        dest.writeString(this.id);
-        dest.writeString(this.userName);
-        dest.writeString(this.produk);
-        dest.writeString(this.company);
-        dest.writeString(this.password);
+        dest.writeString(this.userId);
+        dest.writeString(this.userFirstName);
+        dest.writeString(this.userLastName);
+        dest.writeString(this.userCompany);
+    }
+
+    public User() {
     }
 
     protected User(Parcel in) {
-        this.name = in.readString();
-        this.id = in.readString();
-        this.userName = in.readString();
-        this.produk = in.readString();
-        this.company = in.readString();
-        this.password = in.readString();
+        this.userId = in.readString();
+        this.userFirstName = in.readString();
+        this.userLastName = in.readString();
+        this.userCompany = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

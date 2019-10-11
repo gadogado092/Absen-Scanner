@@ -38,17 +38,14 @@ public class LoginPresenter {
                         view.hideLoading();
                         try {
                             if (response.getBoolean(User.dbStatus)){
-                                JSONObject data = response.getJSONObject("data");
                                 User user = new User();
-                                user.setName(data.getString(User.dbName));
-                                user.setUserName(data.getString(User.dbUserName));
-                                user.setProduk(data.getString(User.dbProduk));
-                                user.setPassword(postData.get("password"));
-                                user.setCompany(data.getString(User.dbCompany));
-                                user.setId(data.getString(User.dbId));
+                                user.setUserId(response.getString(User.dbUserId));
+                                user.setUserFirstName(response.getString(User.dbUserFirstName));
+                                user.setUserLastName(response.getString(User.dbUserLastName));
+                                user.setUserCompany(response.getString(User.dbUserCompany));
                                 view.onSuccess(user);
                             }else {
-                                view.onFailed(response.getString("message"));
+                                view.onFailedLogin();
                             }
                         } catch (JSONException e) {
                             view.hideLoading();

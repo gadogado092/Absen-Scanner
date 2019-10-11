@@ -11,4 +11,6 @@ public interface LoginView {
     void onSuccess(User user);
 
     void onFailed(String error);
+
+    void onFailedLogin();
 }

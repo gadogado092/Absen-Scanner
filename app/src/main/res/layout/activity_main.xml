@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <FrameLayout
         android:id="@+id/frame_layout_camera"
@@ -20,8 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5"
-         />
+        app:layout_constraintGuide_percent="0.6" />
 
     <TextView
         android:id="@+id/text_view_qr_code_value"
@@ -30,6 +29,7 @@
         android:gravity="center_horizontal"
         android:text="QR Code Value"
         android:textSize="18sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,36 +39,78 @@
         android:id="@+id/text_view_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_horizontal"
-        android:text="Gusty"
+        android:textColor="#3C3F41"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintTop_toBottomOf="@+id/textClock2"
+        tools:text="Gusty Icon N Design" />
+
+    <TextClock
+        android:id="@+id/textClock"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:format12Hour="EEE, dd MMM yyyy"
+        android:format24Hour="EEE, dd MMM yyyy"
+        android:gravity="center_horizontal"
+        android:textColor="#007ee5"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame_layout_camera"
+        tools:text="00" />
+
+    <TextClock
+        android:id="@+id/textClock2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:format12Hour="hh:mm:ss"
+        android:format24Hour="hh:mm:ss"
+        android:gravity="center_horizontal"
+        android:textColor="#007ee5"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textClock"
+        tools:text="00" />
 
     <TextView
         android:id="@+id/text_view_name2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
-        android:text="Booble Mitra Kreatif"
+        android:textColor="#3C3F41"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_name" />
+        app:layout_constraintTop_toBottomOf="@+id/text_view_name"
+        tools:text="Booble Mitra Kreatif" />
 
     <TextView
         android:id="@+id/text_view_name3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Makassar"
+        android:textColor="#3C3F41"
         android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_name2" />
+        app:layout_constraintTop_toBottomOf="@+id/text_view_name2"
+        tools:text="Makassar" />
 
     <Button
         android:id="@+id/button_reset"
@@ -76,6 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="Ulangi"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -87,6 +130,7 @@
         android:background="#A6000000"
         android:gravity="center"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

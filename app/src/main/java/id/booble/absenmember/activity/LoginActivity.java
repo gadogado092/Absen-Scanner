@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -12,15 +13,21 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import id.booble.absenmember.MainActivity;
-import id.booble.absenmember.R;
+import java.util.HashMap;
 
-public class LoginActivity extends AppCompatActivity {
+import id.booble.absenmember.R;
+import id.booble.absenmember.model.User;
+import id.booble.absenmember.presenter.LoginPresenter;
+import id.booble.absenmember.util.MyPreference;
+import id.booble.absenmember.view.LoginView;
+
+public class LoginActivity extends AppCompatActivity implements LoginView {
 
     private LinearLayout progress;
     private EditText editTextUserName, editTextPassword;
@@ -52,19 +59,28 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        login.setEnabled(false);
-        progress.setVisibility(View.VISIBLE);
+        LoginPresenter loginPresenter = new LoginPresenter(LoginActivity.this);
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent create = new Intent(LoginActivity.this, MainActivity.class);
-                create.putExtra("EXTRA_SESSION_NAME", editTextUserName.getText().toString());
-                startActivity(create);
-                finish();
-            }
-        },2000L);
+        HashMap<String, String> get_data = new HashMap<>();
+
+        get_data.put("username", editTextUserName.getText().toString().trim());
+        get_data.put("password", editTextPassword.getText().toString().trim() );
+
+        loginPresenter.prosesLogin(get_data);
+        hiddenInputMethod();
+
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent create = new Intent(LoginActivity.this, MainActivity.class);
+//                create.putExtra("EXTRA_SESSION_NAME", editTextUserName.getText().toString());
+//                startActivity(create);
+//                finish();
+//            }
+//        },2000L);
+
+
     }
 
     private boolean checkEditTextEmpty(EditText editText, String sMessageError){
@@ -107,5 +123,49 @@ public class LoginActivity extends AppCompatActivity {
 
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public void hiddenInputMethod() {
+        InputMethodManager manager = (InputMethodManager) LoginActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (manager != null) {
+            manager.hideSoftInputFromWindow(LoginActivity.this.findViewById(android.R.id.content).getWindowToken(), 0);
+        }
+
+    }
+
+    @Override
+    public void showLoading() {
+        login.setEnabled(false);
+        progress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        login.setEnabled(true);
+        progress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onSuccess(User user) {
+
+        MyPreference myPreference = new MyPreference(LoginActivity.this);
+        myPreference.saveUser(user);
+
+        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        LoginActivity.this.startActivity(i);
+        finish();
+
+    }
+
+    @Override
+    public void onFailed(String error) {
+        Toast.makeText(getApplicationContext(),error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFailedLogin() {
+        Toast.makeText(getApplicationContext(), "Gagal Login Check User Name atau Password", Toast.LENGTH_SHORT).show();
     }
 }

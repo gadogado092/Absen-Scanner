@@ -1,13 +1,15 @@
-package id.booble.absenmember;
+package id.booble.absenmember.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import id.booble.absenmember.R;
+import id.booble.absenmember.model.User;
+import id.booble.absenmember.util.MyPreference;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,15 +21,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler {
 
     private ZBarScannerView mScannerView;
     private Boolean isCaptured;
     private Button buttonreset;
     private FrameLayout frame_layout_camera;
-    private TextView text_view_qr_code_value, text_view_name;
+    private TextView text_view_qr_code_value, textViewName, textViewCompany;
     private LinearLayout progress;
 
     @Override
@@ -38,14 +38,18 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
         buttonreset = findViewById(R.id.button_reset);
         frame_layout_camera = findViewById(R.id.frame_layout_camera);
         text_view_qr_code_value = findViewById(R.id.text_view_qr_code_value);
-        text_view_name = findViewById(R.id.text_view_name);
-        String sessionId = getIntent().getStringExtra("EXTRA_SESSION_NAME");
-        text_view_name.setText(sessionId);
+        textViewName = findViewById(R.id.text_view_name);
+        textViewCompany = findViewById(R.id.text_view_name2);
         progress = findViewById(R.id.llprogress);
         progress.setVisibility(View.INVISIBLE);
 
         initScannerView();
-        initDefaultView();
+//        initDefaultView();
+        MyPreference myPreference = new MyPreference(this);
+        User user = myPreference.loadUser();
+
+        textViewName.setText(String.format("%s %s", checkTextNull(user.getUserFirstName()), checkTextNullLast(user.getUserLastName())));
+        textViewCompany.setText(checkTextNull(user.getUserCompany()));
 
         buttonreset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +60,19 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
         });
     }
 
+    private String checkTextNull(String s){
+        if (s.trim().equals("null") || s.trim().equals("")){
+            s="-";
+        }
+        return s;
+    }
+
+    private String checkTextNullLast(String s){
+        if (s.trim().equals("null")){
+            s="";
+        }
+        return s;
+    }
 
 
     @Override
