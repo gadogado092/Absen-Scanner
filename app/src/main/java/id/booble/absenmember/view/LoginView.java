@@ -12,5 +12,5 @@ public interface LoginView {
 
     void onFailed(String error);
 
-    void onFailedLogin();
+    void onFailedLogin(String message);
 }

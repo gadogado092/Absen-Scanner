@@ -13,23 +13,23 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import id.booble.absenmember.BuildConfig;
-import id.booble.absenmember.model.User;
+import id.booble.absenmember.model.Absen;
 import id.booble.absenmember.util.HelperUrl;
-import id.booble.absenmember.view.LoginView;
+import id.booble.absenmember.view.AbsenView;
 
-public class LoginPresenter {
-    private LoginView view;
+public class AbsenPresenter {
+    private AbsenView view;
 
-    public LoginPresenter(LoginView loginView){
-        this.view = loginView;
+    public AbsenPresenter(AbsenView absenView){
+        this.view = absenView;
     }
 
-    public void prosesLogin(final HashMap<String,String> postData){
+    public void prosesAbsen(final HashMap<String,String> postData){
         view.showLoading();
-        AndroidNetworking.post(HelperUrl.URL_LOGIN)
+        AndroidNetworking.post(HelperUrl.URL_SIMPAN_ABSEN)
                 .addBodyParameter(postData)
                 .addQueryParameter("passcode", BuildConfig.API_KEY)
-                .setTag("CallLogin")
+                .setTag("CallAbsen")
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -37,15 +37,13 @@ public class LoginPresenter {
                     public void onResponse(JSONObject response) {
                         view.hideLoading();
                         try {
-                            if (response.getBoolean(User.dbStatus)){
-                                User user = new User();
-                                user.setUserId(response.getString(User.dbUserId));
-                                user.setUserFirstName(response.getString(User.dbUserFirstName));
-                                user.setUserLastName(response.getString(User.dbUserLastName));
-                                user.setUserCompany(response.getString(User.dbUserCompany));
-                                view.onSuccess(user);
+                            if (response.getBoolean(Absen.dbStatus)){
+                                Absen absen = new Absen();
+                                absen.setDate(response.getString(Absen.dbDate));
+                                absen.setTime(response.getString(Absen.dbTime));
+                                view.onSuccess(absen);
                             }else {
-                                view.onFailedLogin("Gagal Login Check User Name atau Password");
+                                view.onFailed("Gagal");
                             }
                         } catch (JSONException e) {
                             view.hideLoading();
