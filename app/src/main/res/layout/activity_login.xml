@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/backgroundnew"
     tools:context=".activity.LoginActivity">
 
     <TextView
@@ -22,6 +22,7 @@
         android:textColor="#fff"
         android:textSize="30dp"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/lnrlyout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,12 +32,12 @@
         android:id="@+id/lnrlyout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="280dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,18 +45,18 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_marginBottom="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/custom_border_edit"
-                android:padding="16dp">
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/user" />
+                    android:src="@drawable/username" />
 
                 <EditText
                     android:id="@+id/userName"
@@ -79,15 +80,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:background="@drawable/custom_border_edit"
-                android:padding="16dp">
+                android:orientation="horizontal"
+                android:padding="8dp"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="175dp">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/password" />
+                    android:src="@drawable/password2" />
 
                 <EditText
                     android:id="@+id/passwrd"
@@ -116,26 +119,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!--<Button-->
+        <!--android:id="@+id/login"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/border"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="15dp"-->
+        <!--android:text="Login"-->
+        <!--android:textColor="#FFF"-->
+        <!--android:textStyle="bold"-->
+        <!--android:theme="@style/ButtonLogin" />-->
+
+        <ImageButton
+            android:id="@+id/login"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:background="@drawable/logintombol" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lnrlyout">
-
-        <Button
-            android:id="@+id/login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:padding="15dp"
-            android:text="Login"
-            android:textColor="#FFF"
-            android:textStyle="bold"
-            android:theme="@style/ButtonLogin" />
-
-    </LinearLayout>
+        app:srcCompat="@drawable/powered" />
 
     <LinearLayout
         android:id="@+id/llprogress"
@@ -144,6 +163,7 @@
         android:background="#BA000000"
         android:gravity="center"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/lnrlyout"
         app:layout_constraintStart_toStartOf="@+id/lnrlyout"
