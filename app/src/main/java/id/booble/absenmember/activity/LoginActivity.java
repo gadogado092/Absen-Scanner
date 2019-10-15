@@ -24,6 +24,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -45,6 +47,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        AndroidNetworking.initialize(getApplicationContext());
 
         login = findViewById(R.id.login);
         progress = findViewById(R.id.llprogress);
