@@ -16,6 +16,7 @@ import me.dm7.barcodescanner.zbar.ZBarScannerView;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
     private TextView textViewName, textViewCompany;
     private LinearLayout progress;
     private AlertDialog alertDialogHasil;
-
+    private Button buttonLogOut;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
 //        text_view_qr_code_value = findViewById(R.id.text_view_qr_code_value);
         textViewName = findViewById(R.id.text_view_name);
         textViewCompany = findViewById(R.id.text_view_name2);
+        buttonLogOut = findViewById(R.id.buttonLogOut);
         progress = findViewById(R.id.llprogress);
         progress.setVisibility(View.INVISIBLE);
 
@@ -68,6 +70,27 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
 //            }
 //        });
 
+        buttonLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+
+    }
+
+    private void logout(){
+        new AlertDialog.Builder(MainActivity.this)
+//                .setTitle("Konfirmasi")
+                .setMessage(textViewName.getText().toString()+" Keluar Dari Aplikasi Absen?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        MyPreference myPreference =  new MyPreference(getApplicationContext());
+                        myPreference.logOut();
+                        myPreference.checkLogin();
+                    }
+                }).create().show();
     }
 
     private String checkTextNull(String s){

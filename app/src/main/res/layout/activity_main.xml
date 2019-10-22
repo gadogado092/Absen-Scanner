@@ -40,7 +40,7 @@
         android:format12Hour="EEE, dd MMM yyyy"
         android:format24Hour="EEE, dd MMM yyyy"
         android:gravity="center_horizontal"
-        android:textColor="#007ee5"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textClock2"
@@ -54,11 +54,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:format12Hour="hh:mm:ss"
         android:format24Hour="hh:mm:ss"
         android:gravity="center_horizontal"
-        android:textColor="#007ee5"
+        android:textColor="@color/colorPrimary"
         android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/text_view_name"
@@ -70,12 +70,12 @@
         android:id="@+id/text_view_name2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:gravity="center_horizontal"
         android:textColor="#3C3F41"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLogOut"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Booble Mitra Kreatif" />
@@ -113,6 +113,19 @@
             android:text="Mohon Tunggu Sebentar..."
             android:textColor="@color/colorAccent" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonLogOut"
+        style="@style/AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Log Out"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
