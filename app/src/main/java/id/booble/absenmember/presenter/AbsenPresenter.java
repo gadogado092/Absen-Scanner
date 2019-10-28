@@ -41,9 +41,10 @@ public class AbsenPresenter {
                                 Absen absen = new Absen();
                                 absen.setDate(response.getString(Absen.dbDate));
                                 absen.setTime(response.getString(Absen.dbTime));
+                                absen.setMessage(response.getString(Absen.dbMessage));
                                 view.onSuccess(absen);
                             }else {
-                                view.onFailed("Gagal");
+                                view.onFailed(response.getString(Absen.dbMessage));
                             }
                         } catch (JSONException e) {
                             view.hideLoading();

@@ -171,18 +171,45 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
 //            }
 //        },2000L);
 
+
+        //resume
+        final CharSequence[] options = {"Pagi", "Malam", "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Pilih Shift");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (options[i].equals("Pagi")) {
+                    prosesAbsen(rawResult.getContents(), "pagi");
+                    dialogInterface.cancel();
+                }else if (options[i].equals("Malam")){
+                    prosesAbsen(rawResult.getContents(), "malam");
+                    dialogInterface.cancel();
+                }
+                else if (options[i].equals("Cancel")) {
+                    dialogInterface.cancel();
+                    mScannerView.resumeCameraPreview(MainActivity.this);
+                }
+            }
+        });
+
+        builder.show();
+
+    }
+
+    private void prosesAbsen(String rawResult, String shift){
+
         progress.setVisibility(View.VISIBLE);
 
         HashMap<String, String> get_data = new HashMap<>();
         MyPreference myPreference = new MyPreference(getApplicationContext());
         User user = myPreference.loadUser();
         get_data.put(User.dbUserId, user.getUserId());
-        get_data.put("kd_absen", rawResult.getContents());
+        get_data.put("kd_absen", rawResult);
+        get_data.put("shift", shift);
 
         AbsenPresenter absenPresenter = new AbsenPresenter(this);
         absenPresenter.prosesAbsen(get_data);
-
-        //resume
 
     }
 
@@ -200,8 +227,9 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
 
         textViewDate.setText(String.format(": %s", absen.getDate()));
         textViewTime.setText(String.format(": %s", absen.getTime()));
+        textViewName.setText(String.format(absen.getMessage()));
 
-        textViewTitle.setText("SUCCESS");
+        textViewTitle.setText("S U K S E S");
 
 
         alertDialogBuilder
@@ -246,6 +274,6 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
     @Override
     public void onFailed(String error) {
         mScannerView.resumeCameraPreview(MainActivity.this);
-        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
     }
 }

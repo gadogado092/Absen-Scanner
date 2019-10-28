@@ -7,9 +7,20 @@ public class Absen implements Parcelable {
     public static final String dbStatus = "status";
     public static final String dbDate = "tgl";
     public static final String dbTime = "jam";
+    public static final String dbMessage = "message";
 
     private String date;
     private String time;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    private String message;
 
     public String getDate() {
         return date;
@@ -27,6 +38,9 @@ public class Absen implements Parcelable {
         this.time = time;
     }
 
+    public Absen() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -36,17 +50,16 @@ public class Absen implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.date);
         dest.writeString(this.time);
-    }
-
-    public Absen() {
+        dest.writeString(this.message);
     }
 
     protected Absen(Parcel in) {
         this.date = in.readString();
         this.time = in.readString();
+        this.message = in.readString();
     }
 
-    public static final Parcelable.Creator<Absen> CREATOR = new Parcelable.Creator<Absen>() {
+    public static final Creator<Absen> CREATOR = new Creator<Absen>() {
         @Override
         public Absen createFromParcel(Parcel source) {
             return new Absen(source);
