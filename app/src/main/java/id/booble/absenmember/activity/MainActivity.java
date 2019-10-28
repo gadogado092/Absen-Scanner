@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
         //resume
         final CharSequence[] options = {"Pagi", "Malam", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Pilih Shift");
+        builder.setTitle("Silahkan Pilih Shift");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
