@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import id.booble.absenmember.R;
 import id.booble.absenmember.model.Absen;
+import id.booble.absenmember.model.Shift;
 import id.booble.absenmember.model.User;
 import id.booble.absenmember.presenter.AbsenPresenter;
+import id.booble.absenmember.presenter.ShiftPresenter;
 import id.booble.absenmember.util.MyPreference;
 import id.booble.absenmember.view.AbsenView;
+import id.booble.absenmember.view.ShiftView;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
@@ -22,12 +25,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler, AbsenView {
@@ -74,6 +80,32 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
             @Override
             public void onClick(View view) {
                 logout();
+
+//                ShiftPresenter shiftPresenter= new ShiftPresenter(new ShiftView() {
+//                    @Override
+//                    public void showLoading() {
+//                        progress.setVisibility(View.VISIBLE);
+//                    }
+//
+//                    @Override
+//                    public void hideLoading() {
+//                        progress.setVisibility(View.GONE);
+//                        mScannerView.resumeCameraPreview(MainActivity.this);
+//                    }
+//
+//                    @Override
+//                    public void onSuccessShift(ArrayList<Shift> listData) {
+//                        showDialogShift(listData, "1");
+//                    }
+//
+//
+//                    @Override
+//                    public void onFailedShift(String error) {
+//                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//
+//                shiftPresenter.getShift();
             }
         });
 
@@ -173,32 +205,121 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
 
 
         //resume
-        final CharSequence[] options = {"Pagi", "Malam", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Silahkan Pilih Shift");
-        builder.setItems(options, new DialogInterface.OnClickListener() {
+//        final CharSequence[] options = {"Pagi", "Malam", "Cancel"};
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//        builder.setTitle("Silahkan Pilih Shift");
+//        builder.setItems(options, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                if (options[i].equals("Pagi")) {
+//                    prosesAbsen(rawResult.getContents(), "pagi");
+//                    dialogInterface.cancel();
+//                }else if (options[i].equals("Malam")){
+//                    prosesAbsen(rawResult.getContents(), "malam");
+//                    dialogInterface.cancel();
+//                }
+//                else if (options[i].equals("Cancel")) {
+//                    dialogInterface.cancel();
+//                    mScannerView.resumeCameraPreview(MainActivity.this);
+//                }
+//            }
+//        });
+//
+//        builder.show();
+
+        ShiftPresenter shiftPresenter= new ShiftPresenter(new ShiftView() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (options[i].equals("Pagi")) {
-                    prosesAbsen(rawResult.getContents(), "pagi");
-                    dialogInterface.cancel();
-                }else if (options[i].equals("Malam")){
-                    prosesAbsen(rawResult.getContents(), "malam");
-                    dialogInterface.cancel();
-                }
-                else if (options[i].equals("Cancel")) {
-                    dialogInterface.cancel();
-                    mScannerView.resumeCameraPreview(MainActivity.this);
-                }
+            public void showLoading() {
+                progress.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void hideLoading() {
+                progress.setVisibility(View.GONE);
+                mScannerView.resumeCameraPreview(MainActivity.this);
+            }
+
+            @Override
+            public void onSuccessShift(ArrayList<Shift> listData) {
+                showDialogShift(listData, rawResult.getContents());
+            }
+
+
+            @Override
+            public void onFailedShift(String error) {
+                Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
             }
         });
 
-        builder.show();
+        shiftPresenter.getShift();
 
     }
 
-    private void prosesAbsen(String rawResult, String shift){
+    private void showDialogShift(ArrayList<Shift> listData, final String contents){
 
+        final LayoutInflater li = LayoutInflater.from(this);
+        View promptsView = li.inflate(R.layout.dialog_shift, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(promptsView);
+
+        TextView textViewTitle = promptsView.findViewById(R.id.hasil);
+        final Spinner spinner = promptsView.findViewById(R.id.spinner);
+
+        String[] namaShift = new String[listData.size()];
+
+        textViewTitle.setText("Silahkan Pilih");
+
+        for (int i=0; i<listData.size(); i++){
+            namaShift[i] = listData.get(i).getName();
+        }
+
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(getApplicationContext(), R.layout.simple_spinner_dropdown_item, namaShift);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        alertDialogBuilder
+                .setCancelable(true);
+
+        alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                prosesAbsen(contents, spinner.getSelectedItem().toString());
+            }
+        });
+
+        alertDialogBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                mScannerView.resumeCameraPreview(MainActivity.this);
+            }
+        });
+
+//        alertDialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                mScannerView.resumeCameraPreview(MainActivity.this);
+//            }
+//        });
+
+
+//        alertDialogBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialogInterface) {
+//
+//            }
+//        });
+
+        // create alert dialog
+        alertDialogHasil = alertDialogBuilder.create();
+        //show it
+        alertDialogHasil.show();
+    }
+
+
+    private void prosesAbsen(String rawResult, String shift){
+//        System.out.println("==="+shift);
         progress.setVisibility(View.VISIBLE);
 
         HashMap<String, String> get_data = new HashMap<>();
