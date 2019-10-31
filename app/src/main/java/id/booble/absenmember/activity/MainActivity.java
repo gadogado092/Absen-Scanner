@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
 //                    @Override
 //                    public void hideLoading() {
 //                        progress.setVisibility(View.GONE);
-//                        mScannerView.resumeCameraPreview(MainActivity.this);
 //                    }
 //
 //                    @Override
@@ -237,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
             @Override
             public void hideLoading() {
                 progress.setVisibility(View.GONE);
-                mScannerView.resumeCameraPreview(MainActivity.this);
+//                mScannerView.resumeCameraPreview(MainActivity.this);
             }
 
             @Override
@@ -267,11 +266,13 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
         final Spinner spinner = promptsView.findViewById(R.id.spinner);
 
         String[] namaShift = new String[listData.size()];
+        final String[] idShift = new String[listData.size()];
 
         textViewTitle.setText("Silahkan Pilih");
 
         for (int i=0; i<listData.size(); i++){
             namaShift[i] = listData.get(i).getName();
+            idShift[i] = listData.get(i).getId();
         }
 
         ArrayAdapter<String> adapter =
@@ -285,7 +286,9 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
         alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                prosesAbsen(contents, spinner.getSelectedItem().toString());
+                String id= idShift[spinner.getSelectedItemPosition()];
+//                prosesAbsen(contents, spinner.getSelectedItem().toString());
+                prosesAbsen(contents, id);
             }
         });
 
@@ -319,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
 
 
     private void prosesAbsen(String rawResult, String shift){
-//        System.out.println("==="+shift);
+//        System.out.println("==="+shift+"+"+rawResult);
         progress.setVisibility(View.VISIBLE);
 
         HashMap<String, String> get_data = new HashMap<>();

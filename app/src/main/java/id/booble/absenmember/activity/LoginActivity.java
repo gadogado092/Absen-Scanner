@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     private LinearLayout progress;
     private EditText editTextUserName, editTextPassword;
-    private ImageButton login;
+    private Button login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
