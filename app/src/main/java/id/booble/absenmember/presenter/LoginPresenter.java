@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import id.booble.absenmember.BuildConfig;
+import id.booble.absenmember.model.Absen;
 import id.booble.absenmember.model.User;
 import id.booble.absenmember.util.HelperUrl;
 import id.booble.absenmember.view.LoginView;
@@ -25,6 +26,7 @@ public class LoginPresenter {
     }
 
     public void prosesLogin(final HashMap<String,String> postData){
+        System.out.println("==="+postData);
         view.showLoading();
         AndroidNetworking.post(HelperUrl.URL_LOGIN)
                 .addBodyParameter(postData)
@@ -45,7 +47,8 @@ public class LoginPresenter {
                                 user.setUserCompany(response.getString(User.dbUserCompany));
                                 view.onSuccess(user);
                             }else {
-                                view.onFailedLogin("Gagal Login Check User Name atau Password");
+//                                view.onFailedLogin("Gagal Login Check User Name atau Password");
+                                view.onFailedLogin(response.getString(Absen.dbMessage));
                             }
                         } catch (JSONException e) {
                             view.hideLoading();
